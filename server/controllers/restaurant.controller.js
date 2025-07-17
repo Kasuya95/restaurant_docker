@@ -68,7 +68,7 @@ restaurantController.getbyID = async(req,res) => {
     await Restaurant.update({name,type,imageUrl},{
       where:{id}
     }).then((num)=>{
-      if(num===1){
+      if(num[0]===1){
         res.send({message:"Restaurant update successfully"})
       }else{
         res.status(404).send({message:"Cannot Update restaurant with id"+id+". Maybe restaurant was not found"})
