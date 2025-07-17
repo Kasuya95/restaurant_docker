@@ -7,14 +7,13 @@ const Restaurant = ({Restaurants}) => {
       <div className="flex flex-wrap justify-center gap-4">
       {Restaurants && Restaurants.map((Restaurant) => {
         return (
-      
-        <Card
-          key={Restaurant.id}
-          id={Restaurant.id}
-          title={Restaurant.title}
-          type={Restaurant.type}
-          img={Restaurant.img}
-        />
+          <Card
+            key={Restaurant.id}
+            id={Restaurant.id}
+            name={Restaurant.name}
+            type={Restaurant.type}
+            imageUrl={Restaurant.imageUrl}
+          />
         );
       })}
       </div>
