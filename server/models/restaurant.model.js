@@ -1,5 +1,5 @@
-const {DataTypes} = require( "sequelize")
-const sequelize = require( "./db")
+const { DataTypes } = require("sequelize");
+const sequelize = require("./db");
 const Restaurant = sequelize.define("restaurant", {
   id: {
     type: DataTypes.INTEGER,
@@ -20,10 +20,11 @@ const Restaurant = sequelize.define("restaurant", {
   },
 });
 
-Restaurant.sync({force: false}).then(()=>{
+Restaurant.sync({ force: false })
+  .then(() => {
     console.log("Table created or already exists");
-}).catch((error)=>{
-    console.log("Error creating table",error);
-}
-)
-module.exports =  Restaurant
+  })
+  .catch((error) => {
+    console.log("Error creating table", error);
+  });
+module.exports = Restaurant;
