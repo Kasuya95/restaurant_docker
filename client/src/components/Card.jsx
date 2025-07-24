@@ -1,99 +1,63 @@
-import React, { useState } from "react";
-const Card = ({ id, name, type, imageUrl }) => {
+import React from 'react';
+import Swal from 'sweetalert2';
+
+const Card = (props) => {
   const deleted = async (id) => {
     try {
-      // async await
-      const response = await fetch(`http://localhost:5000/api/v1/restaurant/${id}`, {
-        method: "DELETE",
+      const response = await fetch(`http://localhost:5000/api/v1/restaurants/${id}`, {
+        method: 'DELETE',
       });
       if (response.ok) {
-        // alert("Restaurant Deleted successfully!");
-        window.location.reload();
+        Swal.fire('ลบสำเร็จ!', 'ร้านอาหารถูกลบเรียบร้อยแล้ว', 'success');
+        // ถ้าต้องการ reload:
+        // window.location.reload();
+      } else {
+        Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถลบได้', 'error');
       }
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.log(err);
+      Swal.fire('ล้มเหลว', 'เกิดข้อผิดพลาดบางอย่าง', 'error');
     }
   };
 
-  const styles = {
-    overlay: {
-      position: "fixed",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: "rgba(0,0,0,0.5)",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    dialog: {
-      background: "white",
-      padding: "20px",
-      borderRadius: "8px",
-      textAlign: "center",
-      color: "red"
-    },
-  };
-
-  const ConfirmDialog = ({ message, onConfirm, onCancel }) => {
-    return (
-      <div className="z-50" style={styles.overlay}>
-        <div style={styles.dialog} className="space-x-4 space-y-2">
-          <p>{message}</p>
-          <button onClick={onConfirm} className="border px-4 py-2 bg-indigo-500 text-white hover:bg-indigo-700 cursor-pointer">ตกลง</button>
-          <button onClick={onCancel} className="border px-4 py-2 bg-red-500 text-white hover:bg-red-700 cursor-pointer">ยกเลิก</button>
-        </div>
-      </div>
-    );
-  };
-
-  const [showConfirm, setShowConfirm] = useState(false);
-
-  const handleDelete = () => {
-    setShowConfirm(true);
-  };
-
   const confirmDelete = (id) => {
-    // console.log(id)
-    deleted(id)
-    setShowConfirm(false);
-    alert("ลบเรียบร้อย!");
-  };
-
-  const cancelDelete = () => {
-    setShowConfirm(false);
+    Swal.fire({
+      title: 'แน่ใจ?',
+      text: 'ต้องการลบร้านอาหารนี้ใช่หรือไม่',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'ตกลง',
+      cancelButtonText: 'ยกเลิก'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleted(id);
+      }
+    });
   };
 
   return (
     <div className="card bg-base-100 w-96 shadow-sm">
       <figure>
-        <img src={imageUrl} alt="Shoes" />
+        <img src={props.imageUrl} alt="Restaurant" />
       </figure>
       <div className="card-body">
         <h2 className="card-title">
-          {name}
+          {props.name}
           <div className="badge badge-secondary">NEW</div>
         </h2>
-        <p>{type}</p>
+        <p>{props.type}</p>
         <div className="card-actions justify-end">
-          {/* <div onClick={() => deleted(id)} className="badge badge-outline">Delete</div> */}
-          <div onClick={handleDelete} className="badge badge-outline">
+          <div
+            onClick={() => confirmDelete(props.id)}
+            className="btn btn-dash btn-error"
+          >
             Delete
           </div>
-          <a
-            href={`/update/${id}`}
-            className="badge badge-outline cursor-pointer"
-          >
-            Edit
+          <a href={`/Update/${props.id}`} className="btn btn-dash btn-primary">
+            Update
           </a>
-          {showConfirm && (
-            <ConfirmDialog
-              message="ต้องการลบหรือไม่"
-              onConfirm={() => confirmDelete(id)}
-              onCancel={cancelDelete}
-            />
-          )}
         </div>
       </div>
     </div>

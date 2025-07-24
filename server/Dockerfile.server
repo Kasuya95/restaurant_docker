@@ -4,7 +4,7 @@ WORKDIR /app
 # copy file page.json ไปไว้ใน /app
 COPY package*.json ./
 
-RUN npm install -g nodemon & npm install
+RUN npm install -g nodemon && npm install
 
 # . แรก client .สอง /app
 # ฝั่งซ้าย เครื่องเรา ขวา docker
