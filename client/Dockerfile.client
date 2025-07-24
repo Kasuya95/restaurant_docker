@@ -1,0 +1,17 @@
+FROM node:22-alpine
+
+# move ไปที่ /app
+WORKDIR /app
+# copy file page.json ไปไว้ใน /app
+COPY package*.json ./
+
+RUN npm install
+
+# . แรก client .สอง /app
+# ฝั่งซ้าย เครื่องเรา ขวา docker
+COPY . .
+
+# ปกติ react run port 5173 เราก็ส่งออกให้ browser เข้าถึง 5173
+EXPOSE 5173
+
+CMD ["npm", "run", "dev"]
