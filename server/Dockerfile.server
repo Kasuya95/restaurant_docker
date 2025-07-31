@@ -13,4 +13,4 @@ COPY . .
 # ปกติ react run port 5000 เราก็ส่งออกให้ คนอื่นเข้ามาที่  5000
 EXPOSE 5000
 
-CMD ["nodemon", "index.js"]
+CMD ["npm", "run","dev"]

@@ -11,9 +11,9 @@ const Navbar = () => {
       url: "/",
     },
     {
-        name: "About Us",
-        url: "/"
-    }
+      name: "About Us",
+      url: "/",
+    },
   ];
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -49,8 +49,13 @@ const Navbar = () => {
             })}
           </ul>
         </div>
-        <div aria-label="status" className="status status-accent animate-bounce"></div> 
-        <a className="btn btn-ghost text-xl" href="/">Grab Restaurant</a>
+        <div
+          aria-label="status"
+          className="status status-accent animate-bounce"
+        ></div>
+        <a className="btn btn-ghost text-xl" href="/">
+          Grab Restaurant
+        </a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
@@ -64,8 +69,8 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end space-x-2">
-        <button className="btn btn-outline btn-secondary">Register</button>
-        <button className="btn btn-soft btn-primary">Login</button>
+        <a className="btn btn-outline btn-secondary" href="/Signup">Register</a>
+        <a className="btn btn-soft btn-primary" href="/">Login</a>
       </div>
     </div>
   );

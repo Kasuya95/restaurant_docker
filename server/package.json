@@ -8,7 +8,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "author": "Phongsakorn Tangpok",
+  "author": "Thunva Artkonghan",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",

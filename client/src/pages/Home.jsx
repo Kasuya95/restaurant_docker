@@ -1,29 +1,34 @@
 import React, { useState, useEffect, use } from "react";
 import Navbar from "../components/Navbar";
 import Restaurant from "../components/Restaurant";
+import swal from "sweetalert2"
+import RestaurantService from "../services/restaurant.service";
 const Home = () => {
   const [Restaurants, setRestaurants] = useState([]);
+  const [filteredRestaurant, setFiltedRestauranrt] = useState([]);
   useEffect(() => {
     //call api getAllRestaurants
-    fetch(
-      "http://localhost:5000/api/v1/restaurants"
-    )
-      .then((res) => {
-        // convert to JSON format
-        return res.json();
-      })
-      .then((response) => {
-        // setstate
-        setRestaurants(response);
-        setFiltedRestauranrt(response);
-      })
-      .catch((err) => {
+    const getAllRestaurant = async ()=>{
+      try {
+        const response = await RestaurantService.getAllRestaurants();
+        console.log(response);
+        
+        if (response.status === 200){
+          setRestaurants(response.data)
+          setFiltedRestauranrt(response.data)
+        }
+      } catch(error) {
         // catch error
-        console.log(err.massage);
-      });
+        swal.fire({
+          title:"Get all restaurant",
+          text:error?.response?.data?.message || error.message,
+        });
+      };
+    }
+      getAllRestaurant()
   }, []);
 
-  const [filteredRestaurant, setFiltedRestauranrt] = useState([]);
+
 
   const handleSearch = (keyword) => {
     if (keyword === "") {

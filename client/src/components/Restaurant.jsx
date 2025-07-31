@@ -1,24 +1,31 @@
-import React from 'react'
-import Card from './Card'
+import React from "react";
+import Card from "./Card";
 
-const Restaurant = ({Restaurants}) => {
+const Restaurant = ({ Restaurants }) => {
+  // ตรวจสอบว่า Restaurants เป็น array จริงก่อน
+  if (!Array.isArray(Restaurants)) {
+    return (
+      <div className="text-center text-red-500 mt-10">
+        <p>No restaurants available.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex ">
+    <div className="flex">
       <div className="flex flex-wrap justify-center gap-4">
-      {Restaurants && Restaurants.map((Restaurant) => {
-        return (
+        {Restaurants.map((restaurant) => (
           <Card
-            key={Restaurant.id}
-            id={Restaurant.id}
-            name={Restaurant.name}
-            type={Restaurant.type}
-            imageUrl={Restaurant.imageUrl}
+            key={restaurant.id}
+            id={restaurant.id}
+            name={restaurant.name}
+            type={restaurant.type}
+            imageUrl={restaurant.imageUrl}
           />
-        );
-      })}
+        ))}
       </div>
     </div>
   );
-}
+};
 
-export default Restaurant
+export default Restaurant;
