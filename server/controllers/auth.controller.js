@@ -5,6 +5,7 @@ const config = require("../config/auth.config");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { Op } = require("sequelize");
+require("dotenv").config();
 
 
 const authController = {};

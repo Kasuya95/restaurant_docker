@@ -11,7 +11,7 @@ const Home = () => {
     const getAllRestaurant = async ()=>{
       try {
         const response = await RestaurantService.getAllRestaurants();
-        console.log(response);
+        
         
         if (response.status === 200){
           setRestaurants(response.data)

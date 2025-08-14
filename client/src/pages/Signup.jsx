@@ -1,4 +1,7 @@
 import { useState } from "react";
+import AuthService from "../services/auth.service";
+import Swal from "sweetalert2"
+import { useNavigate} from "react-router"
 
 const Signup = () => {
   const [signup, setSignup] = useState({
@@ -7,6 +10,7 @@ const Signup = () => {
     password: "",
     email: "",
   });
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,27 +19,20 @@ const Signup = () => {
 
   const handleSubmit = async () => {
     try {
-      // async await
-      const response = await fetch("http://localhost:5000/api/v1/auth/signup", {
-        method: "POST",
-        body: JSON.stringify(signup),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        alert("Register Successfully!");
-        setSignup({
-          username: "",
-          name: "",
-          password: "",
-          email: "",
-        });
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+      const response = await AuthService.register(signup.username,signup.name,signup.password,signup.email);
+      if(response.status === 200)
+              Swal.fire({
+            title:"User Register",
+            text:"Register successsfully",
+            icon:"success"});
+            navigate("/")
+          } catch (error) {
+            Swal.fire({
+            title:"User Register",
+           text: error?.response?.data?.message || error.message,
+            icon:"error"});;
+          }
+        };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-6 py-12">

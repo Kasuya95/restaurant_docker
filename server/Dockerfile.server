@@ -11,6 +11,6 @@ RUN npm install -g nodemon && npm install
 COPY . .
 
 # ปกติ react run port 5000 เราก็ส่งออกให้ คนอื่นเข้ามาที่  5000
-EXPOSE 5000
+EXPOSE 3000
 
 CMD ["npm", "run","dev"]

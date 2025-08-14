@@ -4,7 +4,7 @@ services:
       context: ./server
       dockerfile: Dockerfile.server
     ports:
-      - "5000:5000"
+      - "3000:3000"
       # จับคู่ ซ้ายเครื่องเรา ขวา docker
     volumes:
       - "./server:/app"

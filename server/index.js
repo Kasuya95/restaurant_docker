@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
 dotenv.config();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 const restaurantRouter = require("./routers/restaurant.router");
 const cors = require("cors");
 
@@ -14,7 +14,7 @@ app.use(
     origin: ["http://localhost:5173", "127.0.0.1:5173"],
     // อุญาติให้ ใช้ method ไรบ้าง หรือ service
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization","x-access-token"],
   })
 );
 

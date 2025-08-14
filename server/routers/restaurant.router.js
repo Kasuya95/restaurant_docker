@@ -3,7 +3,7 @@ const restaurantController = require("../controllers/restaurant.controller.js");
 const express = require("express");
 const router = express.Router();
 
-// POST http://localhost:5000/api/v1/restaurants
+// POST http://localhost:5000/api/v1/restaurant
 router.post("/", restaurantController.create);
 router.get('/', restaurantController.getAll);
 router.get('/:id', restaurantController.getById);

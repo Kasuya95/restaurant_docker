@@ -1,10 +1,14 @@
 import { useState } from "react";
+import AuthService from "../services/auth.service"
+import { useNavigate } from "react-router"
+import Swal from "sweetalert2"
 
 const Signin = () => {
   const [signin, setSignin] = useState({
     username: "",
     password: "",
   });
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,31 +19,18 @@ const Signin = () => {
     e.preventDefault(); // หยุด form จากการ reload
 
     try {
-      const response = await fetch("http://localhost:5000/api/v1/auth/signin", {
-        method: "POST",
-        body: JSON.stringify(signin),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await response.json(); // แปลง response เป็น json
-
-      if (response.ok) {
-        console.log("Token:", data.token); // ✅ แสดง token
-        localStorage.setItem("token", data.token); // ✅ เก็บ token
-
-        alert("Sign in successfully!");
-
-        setSignin({
-          username: "",
-          password: "",
-        });
-      } else {
-        alert("Sign in failed: " + data.message);
-      }
+      const response = await AuthService.login(signin.username,signin.password);
+      if(response.status === 200)
+        Swal.fire({
+      title:"User Login",
+      text:"Login successsfully",
+      icon:"success"});
+      navigate("/")
     } catch (error) {
-      console.error("Error:", error);
+      Swal.fire({
+      title:"User Login",
+     text: error?.response?.data?.message || error.message,
+      icon:"error"});;
     }
   };
 
@@ -119,7 +110,7 @@ const Signin = () => {
             href="/signup"
             className="font-medium text-indigo-600 hover:text-indigo-500"
           >
-            Start a 14 day free trial
+            Sign up Now!!
           </a>
         </p>
       </div>
