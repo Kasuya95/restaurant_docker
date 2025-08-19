@@ -1,7 +1,10 @@
 import React from "react";
 import Card from "./Card";
+import { useAuthContext } from "../context/AuthContext";
 
 const Restaurant = ({ Restaurants }) => {
+
+  const {user} = useAuthContext();
   // ตรวจสอบว่า Restaurants เป็น array จริงก่อน
   if (!Array.isArray(Restaurants)) {
     return (
@@ -14,7 +17,7 @@ const Restaurant = ({ Restaurants }) => {
   return (
     <div className="flex">
       <div className="flex flex-wrap justify-center gap-4">
-        {Restaurants.map((restaurant) => (
+        {Restaurants && user && Restaurants.map((restaurant) => (
           <Card
             key={restaurant.id}
             id={restaurant.id}
@@ -23,6 +26,7 @@ const Restaurant = ({ Restaurants }) => {
             imageUrl={restaurant.imageUrl}
           />
         ))}
+        {!user && (<div>ล็อคอินก่อน</div>)}
       </div>
     </div>
   );

@@ -1,12 +1,15 @@
 import React from 'react';
 import Swal from 'sweetalert2';
+import { useAuthContext } from '../context/AuthContext';
+import RestaurantService from '../services/restaurant.service';
 
 const Card = (props) => {
+  const { user } = useAuthContext();
+  //console.log(user.authorities)
+
   const deleted = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/restaurants/${id}`, {
-        method: 'DELETE',
-      });
+      const response = await RestaurantService.deleteRestaurants(id);
       if (response.ok) {
         Swal.fire('ลบสำเร็จ!', 'ร้านอาหารถูกลบเรียบร้อยแล้ว', 'success');
         // ถ้าต้องการ reload:
@@ -49,15 +52,26 @@ const Card = (props) => {
         </h2>
         <p>{props.type}</p>
         <div className="card-actions justify-end">
-          <div
-            onClick={() => confirmDelete(props.id)}
-            className="btn btn-dash btn-error"
-          >
-            Delete
-          </div>
-          <a href={`/Update/${props.id}`} className="btn btn-dash btn-primary">
-            Update
-          </a>
+          {
+            user && user.authorities.includes("ROLES_ADMIN") && (
+              <>
+                <div
+                  onClick={() => confirmDelete(props.id)}
+                  className="btn btn-dash btn-error"
+                >
+                  Delete
+                </div>
+                <a href={`/Update/${props.id}`} className="btn btn-dash btn-primary">
+                  Update
+                </a>
+              </>
+            )
+          }
+
+          {
+            user && user.authorities.includes("ROLES_MODERATOR") &&
+            <a href={`/Update/${props.id}`} className="btn btn-dash btn-primary">             Update           </a>
+          }
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import AuthService from "../services/auth.service"
 import { useNavigate } from "react-router"
+import { useAuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2"
 
 const Signin = () => {
@@ -9,6 +10,13 @@ const Signin = () => {
     password: "",
   });
   const navigate = useNavigate()
+  const {login: loginFn , user} = useAuthContext();
+
+  useEffect(()=>{
+    if(user){
+      navigate("/");
+    }
+  },[user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,13 +27,15 @@ const Signin = () => {
     e.preventDefault(); // หยุด form จากการ reload
 
     try {
-      const response = await AuthService.login(signin.username,signin.password);
-      if(response.status === 200)
+      const currentUser = await AuthService.login(signin.username,signin.password);
+      if(currentUser.status === 200)
         Swal.fire({
       title:"User Login",
       text:"Login successsfully",
-      icon:"success"});
-      navigate("/")
+      icon:"success"}).then(() =>{
+        loginFn(currentUser.data)
+        navigate("/")
+      });
     } catch (error) {
       Swal.fire({
       title:"User Login",
