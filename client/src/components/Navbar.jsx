@@ -3,7 +3,7 @@ import { useAuthContext } from "../context/AuthContext";
 import Userprofile from "./Userprofile";
 const Navbar = () => {
   const {user}= useAuthContext()
-  console.log(user);
+
   
   const menuItems = [
     {
