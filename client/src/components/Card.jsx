@@ -7,38 +7,41 @@ const Card = (props) => {
   const { user } = useAuthContext();
   //console.log(user.authorities)
 
-  const deleted = async (id) => {
-    try {
-      const response = await RestaurantService.deleteRestaurants(id);
-      if (response.ok) {
-        Swal.fire('ลบสำเร็จ!', 'ร้านอาหารถูกลบเรียบร้อยแล้ว', 'success');
-        // ถ้าต้องการ reload:
-        // window.location.reload();
-      } else {
-        Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถลบได้', 'error');
-      }
-    } catch (err) {
-      console.log(err);
-      Swal.fire('ล้มเหลว', 'เกิดข้อผิดพลาดบางอย่าง', 'error');
-    }
-  };
+const deleted = async (id) => {
+  try {
+    const response = await RestaurantService.deleteRestaurants(id);
 
-  const confirmDelete = (id) => {
-    Swal.fire({
-      title: 'แน่ใจ?',
-      text: 'ต้องการลบร้านอาหารนี้ใช่หรือไม่',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'ตกลง',
-      cancelButtonText: 'ยกเลิก'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        deleted(id);
-      }
-    });
-  };
+    // Axios: status 200 หมายถึงสำเร็จ
+    if (response.status === 200) {
+      Swal.fire('ลบสำเร็จ!', response.data.message || 'ร้านอาหารถูกลบเรียบร้อยแล้ว', 'success');
+      window.location.reload(); // ถ้าต้องการ reload หน้า
+    } else {
+      Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถลบได้', 'error');
+    }
+  } catch (err) {
+    console.error(err);
+    Swal.fire('ล้มเหลว', 'เกิดข้อผิดพลาดบางอย่าง', 'error');
+  }
+};
+
+
+const confirmDelete = (id) => {
+  Swal.fire({
+    title: 'แน่ใจ?',
+    text: 'ต้องการลบร้านอาหารนี้ใช่หรือไม่',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'ตกลง',
+    cancelButtonText: 'ยกเลิก'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      deleted(id);
+    }
+  });
+};
+
 
   return (
     <div className="card bg-base-100 w-96 shadow-sm">
