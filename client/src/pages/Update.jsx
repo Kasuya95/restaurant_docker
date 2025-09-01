@@ -14,19 +14,23 @@ const Update = () => {
       imageUrl: "",
     });
   const navigate = useNavigate()
-   //2.Get Restaurant By ID
-useEffect(() => {
+   useEffect(() => {
   const fetchRestaurant = async () => {
     try {
-      const data = await RestaurantService.getRestaurantByID(id);
+      const res = await fetch(`https://restaurant-docker.onrender.com/api/v1/restaurant/${id}`);
+      const data = await res.json();
+      console.log("Restaurant data:", data); // ดูว่ามีค่ากลับมาหรือไม่
       setRestaurant(data);
     } catch (err) {
       console.error(err.message);
       Swal.fire("Error", "โหลดข้อมูลร้านอาหารไม่สำเร็จ", "error");
     }
   };
-  fetchRestaurant();
+  if (id) {
+    fetchRestaurant();
+  }
 }, [id]);
+
     const handleChange = (e) => {
         const { name, value } = e.target
         setRestaurant({ ...Restaurant, [name]: value }) //clone 
