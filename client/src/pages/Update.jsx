@@ -14,21 +14,20 @@ const Update = () => {
       imageUrl: "",
     });
   const navigate = useNavigate()
-   useEffect(() => {
-  const fetchRestaurant = async () => {
-    try {
-      const res = await fetch(`https://restaurant-docker.onrender.com/api/v1/restaurant/${id}`);
-      const data = await res.json();
-      console.log("Restaurant data:", data); // ดูว่ามีค่ากลับมาหรือไม่
-      setRestaurant(data);
-    } catch (err) {
-      console.error(err.message);
-      Swal.fire("Error", "โหลดข้อมูลร้านอาหารไม่สำเร็จ", "error");
+  useEffect(() => {
+    const fetchRestaurant = async (id) => {
+        try {
+            const data = await RestaurantService.getRestaurantByID(id); // คืน data ตรง ๆ
+            setRestaurant(data); // ใช้ data เลย
+        } catch (error) {
+            Swal.fire({
+                title: "Get Restaurant",
+                icon: "error",
+                text: error?.response?.data?.message || error.message
+            });
+        }
     }
-  };
-  if (id) {
-    fetchRestaurant();
-  }
+    if (id) fetchRestaurant(id);
 }, [id]);
 
     const handleChange = (e) => {
@@ -109,7 +108,7 @@ const Update = () => {
             />
             {Restaurant.imageUrl && (
               <div className="flex items-center gap-2 px-8">
-                <img className="h-32" src={Restaurant.imageUrl}></img>
+                <img className="h-32" src={Restaurant.imageUrl} alt="preview" ></img>
               </div>
             )}
             <button onClick={handleSubmit} className="btn btn-soft btn-primary">
