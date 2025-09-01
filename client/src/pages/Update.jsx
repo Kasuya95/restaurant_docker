@@ -14,21 +14,24 @@ const Update = () => {
       imageUrl: "",
     });
   const navigate = useNavigate()
-  useEffect(() => {
-    const fetchRestaurant = async (id) => {
-        try {
-            const data = await RestaurantService.getRestaurantByID(id); // คืน data ตรง ๆ
-            setRestaurant(data); // ใช้ data เลย
-        } catch (error) {
-            Swal.fire({
-                title: "Get Restaurant",
-                icon: "error",
-                text: error?.response?.data?.message || error.message
-            });
-        }
+ useEffect(() => {
+  const fetchRestaurant = async (id) => {
+    try {
+      const resp = await RestaurantService.getRestaurantByID(id);
+      // Axios response มี data อยู่ข้างใน
+      setRestaurant(resp.data); 
+      console.log("Restaurant data:", resp.data); // ตรวจสอบข้อมูล
+    } catch (error) {
+      Swal.fire({
+        title: "Get Restaurant",
+        icon: "error",
+        text: error?.response?.data?.message || error.message
+      });
     }
-    if (id) fetchRestaurant(id);
+  }
+  if (id) fetchRestaurant(id);
 }, [id]);
+
 
     const handleChange = (e) => {
         const { name, value } = e.target
