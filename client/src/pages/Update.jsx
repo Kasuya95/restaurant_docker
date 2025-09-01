@@ -16,7 +16,7 @@ const Update = () => {
   const navigate = useNavigate()
     //2.Get Restaurant By ID
     useEffect(()=>{
-        fetch(`http://localhost:3000/api/v1/restaurant/${id}`).then((res) => {
+        fetch(`https://restaurant-docker.onrender.com/api/v1/restaurant/${id}`).then((res) => {
           //แปลงจาก JSON เป็น String
             return res.json();
         })
